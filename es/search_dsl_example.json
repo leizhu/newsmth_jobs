@@ -1,0 +1,33 @@
+{
+  "size": 50,
+  "sort": [
+        {
+              "post_date": {
+                      "order": "desc"
+                    }
+            },
+      "_score"
+          ],
+  "query": {
+      "bool": {
+            "must": [
+                      {
+                                "match": {
+                                            "post_title": {
+                                                          "query": "云平台",
+                                                          "type": "phrase"        // default is boolean
+                                                        }
+                                          }
+                              },
+                    {
+                              "range": {
+                                          "post_date": {
+                                                        "gte": "now-30d",
+                                                        "lte": "now+1d"
+                                                      }
+                                        }
+                            }
+                  ]
+          }
+    }
+}
