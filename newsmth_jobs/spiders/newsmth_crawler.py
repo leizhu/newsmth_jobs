@@ -12,6 +12,7 @@ import datetime
 class NewsmthCrawlerSpider(Spider):
     name = 'newsmth_crawler'
     allowed_domains = ['newsmth.net']
+    #start_urls = ["http://www.newsmth.net/nForum/article/Career_Upgrade/469221?title=SUSE20%E5%8C%97%E4%BA%AC%E6%8B%9B%E8%81%98%20Linux%20Developer%20HA&date=2016-10-26&id=469221"]
     start_urls = []
     for i in range(30):
         url = "http://www.newsmth.net/nForum/board/Career_Upgrade?p=" + str(i+1)
@@ -33,6 +34,10 @@ class NewsmthCrawlerSpider(Spider):
                    date = datetime.datetime.today().strftime('%Y-%m-%d')
                 job_url = job_ele.select('td[2]/a/@href').extract()[0].encode("utf-8")
                 post_id = job_url.split("/")[-1]
+                if title.find('&') != -1:
+                    title = title.replace('&', '%20')
+                if title.find('#') != -1:
+                    title = title.replace('#', '%20sharp')
                 job_url = "http://www.newsmth.net" + job_url + "?title=" + title + "&date=" + date + "&id=" + post_id
                 yield Request(job_url, callback=self.parse)
         else:
@@ -46,8 +51,15 @@ class NewsmthCrawlerSpider(Spider):
             post_id = id_part.split("=")[1]
             item = {}
             item["post_title"] = post_title
-            content = sel.xpath('//*[@id="body"]/div[3]/div[1]/table/tr[2]/td[2]/p').extract()[0].encode("utf-8")
-            item["post_content"] = content
             item["post_date"] = post_date
             item["post_id"] = post_id
+            elements = sel.xpath('//*[@id="body"]/div[3]/div[1]/table/tr[2]/td[2]/p').extract()
+            if len(elements) == 0:
+                elements = sel.xpath('//*/p')
+            #print elements
+            if len(elements) == 0:
+                content = post_title
+            else:
+                content = elements[0].encode("utf-8")
+            item["post_content"] = content
             yield item
