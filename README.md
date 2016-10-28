@@ -10,8 +10,12 @@ scrapy crawl -L INFO newsmth_crawler
 Now I hard code that when the above cmd execute, 30 latest pages in http://www.newsmth.net/nForum/board/Career_Upgrade will be crawled, the crawled content includes job post_title/post_date/JD-content.
 
 # Elasticsearch(2.x) config
+
 [elasticsearch-py](http://elasticsearch-py.readthedocs.io/en/master/index.html) is used as es client. You can install it(version elasticsearch>=2.0.0,<3.0.0) via
 ```
 pip install elasticsearch
 ```
+
+[elasticsearch-analysis-ik](https://github.com/medcl/elasticsearch-analysis-ik) is used as Chinese Lucene analyzer. Follow [this](https://github.com/medcl/elasticsearch-analysis-ik#install) to install it.
+
 You can edit "newsmth_jobs/pipelines.py" tp specify the es config
