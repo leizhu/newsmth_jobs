@@ -5,16 +5,13 @@ from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from scrapy.http import Request
 import urllib
-import logging
 import re
 import datetime
-#logger = logging.getLogger()
 
 
 class NewsmthCrawlerSpider(Spider):
     name = 'newsmth_crawler'
     allowed_domains = ['newsmth.net']
-    #start_urls = ['http://www.newsmth.net/nForum/board/Career_Upgrade?p=1']
     start_urls = []
     for i in range(30):
         url = "http://www.newsmth.net/nForum/board/Career_Upgrade?p=" + str(i+1)
@@ -23,7 +20,7 @@ class NewsmthCrawlerSpider(Spider):
     def parse(self, response):
         sel = Selector(response)
         page_url = str(response.url)
-        print page_url
+        #print page_url
         if page_url.find("board/Career_Upgrade") != -1:
             for i in range(30):
                 path = '//*[@id="body"]/div[3]/table/tbody/tr[' + str(i+1) + ']'

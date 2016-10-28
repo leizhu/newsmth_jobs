@@ -5,7 +5,7 @@ All the info will be store into [elasticsearch](https://www.elastic.co/products/
 # How to run 
 ```
 cd newsmth_jobs
-scrapy crawl newsmth_crawler
+scrapy crawl -L INFO newsmth_crawler
 ```
 Now I hard code that when the above cmd execute, 30 latest pages in http://www.newsmth.net/nForum/board/Career_Upgrade will be crawled, the crawled content includes job post_title/post_date/JD-content.
 
